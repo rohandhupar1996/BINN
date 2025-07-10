@@ -1,0 +1,22 @@
+input,translation,url,name,x,species
+sex_Female,sex_Female,https://reactome.org/sex_Female,Clinical: sex_Female,direct,human
+sex_Male,sex_Male,https://reactome.org/sex_Male,Clinical: sex_Male,direct,human
+age,age,https://reactome.org/age,Clinical: age,direct,human
+ethnicity_Asian,ethnicity_Asian,https://reactome.org/ethnicity_Asian,Clinical: ethnicity_Asian,direct,human
+ethnicity_Black,ethnicity_Black,https://reactome.org/ethnicity_Black,Clinical: ethnicity_Black,direct,human
+ethnicity_Hispanic,ethnicity_Hispanic,https://reactome.org/ethnicity_Hispanic,Clinical: ethnicity_Hispanic,direct,human
+ethnicity_White,ethnicity_White,https://reactome.org/ethnicity_White,Clinical: ethnicity_White,direct,human
+education_College,education_College,https://reactome.org/education_College,Clinical: education_College,direct,human
+education_Grad,education_Grad,https://reactome.org/education_Grad,Clinical: education_Grad,direct,human
+education_HS,education_HS,https://reactome.org/education_HS,Clinical: education_HS,direct,human
+income,income,https://reactome.org/income,Clinical: income,direct,human
+bmi,bmi,https://reactome.org/bmi,Clinical: bmi,direct,human
+family_history_No,family_history_No,https://reactome.org/family_history_No,Clinical: family_history_No,direct,human
+family_history_Yes,family_history_Yes,https://reactome.org/family_history_Yes,Clinical: family_history_Yes,direct,human
+smoking_Current,smoking_Current,https://reactome.org/smoking_Current,Clinical: smoking_Current,direct,human
+smoking_Former,smoking_Former,https://reactome.org/smoking_Former,Clinical: smoking_Former,direct,human
+smoking_Never,smoking_Never,https://reactome.org/smoking_Never,Clinical: smoking_Never,direct,human
+diabetes,diabetes,https://reactome.org/diabetes,Clinical: diabetes,direct,human
+hypertension,hypertension,https://reactome.org/hypertension,Clinical: hypertension,direct,human
+cholesterol,cholesterol,https://reactome.org/cholesterol,Clinical: cholesterol,direct,human
+bp_systolic,bp_systolic,https://reactome.org/bp_systolic,Clinical: bp_systolic,direct,human
