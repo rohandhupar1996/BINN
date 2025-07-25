@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BINN Conceptual Comparison</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        
+        .container { max-width: 1600px; margin: 0 auto; }
+        .hero { text-align: center; color: white; margin-bottom: 30px; }
+        .hero h1 { font-size: 2.5em; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        
+        .comparison-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px; }
+        
+        .binn-card { background: white; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .card-header { text-align: center; margin-bottom: 25px; }
+        .card-title { font-size: 1.6em; font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+        .card-badge { display: inline-block; padding: 8px 16px; border-radius: 20px; font-size: 0.9em; font-weight: 600; }
+        .simple-badge { background: #e3f2fd; color: #1565c0; }
+        .enhanced-badge { background: #e8f5e8; color: #2e7d32; }
+        
+        .architecture-diagram { margin: 25px 0; }
+        .layer-flow { display: flex; flex-direction: column; gap: 15px; }
+        .layer { display: flex; align-items: center; padding: 15px; background: #f8f9fa; border-radius: 10px; }
+        .layer-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.3em; margin-right: 15px; }
+        .simple-layer { background: #1976d2; }
+        .enhanced-layer { background: #388e3c; }
+        .layer-content { flex: 1; }
+        .layer-title { font-weight: 600; color: #2d3748; margin-bottom: 4px; }
+        .layer-desc { font-size: 0.9em; color: #718096; }
+        .layer-data { font-family: monospace; font-size: 0.8em; color: #4a5568; margin-top: 4px; }
+        
+        .data-sources { background: #f7fafc; border-radius: 10px; padding: 15px; margin: 15px 0; }
+        .sources-title { font-weight: 600; color: #2d3748; margin-bottom: 10px; }
+        .source-item { display: flex; align-items: center; margin: 8px 0; }
+        .source-icon { width: 20px; height: 20px; border-radius: 4px; margin-right: 10px; }
+        .protein-icon { background: #ff9800; }
+        .snp-icon { background: #e91e63; }
+        .clinical-icon { background: #9c27b0; }
+        .source-text { font-size: 0.9em; color: #4a5568; }
+        
+        .key-differences { background: white; border-radius: 20px; padding: 30px; margin: 30px 0; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .diff-title { text-align: center; font-size: 1.8em; font-weight: 600; color: #2c3e50; margin-bottom: 25px; }
+        
+        .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .diff-card { background: #f8f9fa; border-radius: 15px; padding: 20px; border-left: 5px solid #667eea; }
+        .diff-header { font-size: 1.2em; font-weight: 600; color: #2c3e50; margin-bottom: 15px; }
+        .diff-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .diff-item { padding: 12px; border-radius: 8px; }
+        .simple-diff { background: #e3f2fd; border-left: 4px solid #1976d2; }
+        .enhanced-diff { background: #e8f5e8; border-left: 4px solid #388e3c; }
+        .diff-label { font-weight: 600; font-size: 0.9em; margin-bottom: 5px; }
+        .simple-label { color: #1565c0; }
+        .enhanced-label { color: #2e7d32; }
+        .diff-desc { font-size: 0.85em; color: #4a5568; }
+        
+        .pathway-visualization { background: white; border-radius: 20px; padding: 30px; margin: 30px 0; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .pathway-title { text-align: center; font-size: 1.8em; font-weight: 600; color: #2c3e50; margin-bottom: 25px; }
+        .pathway-flow { display: flex; justify-content: space-between; align-items: center; margin: 30px 0; flex-wrap: wrap; gap: 20px; }
+        .pathway-node { text-align: center; }
+        .pathway-box { width: 120px; height: 100px; border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; margin: 0 auto 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .simple-pathway { background: linear-gradient(135deg, #1976d2, #42a5f5); }
+        .enhanced-pathway { background: linear-gradient(135deg, #388e3c, #66bb6a); }
+        .pathway-icon { font-size: 2em; margin-bottom: 5px; }
+        .pathway-label { font-weight: 600; font-size: 0.85em; }
+        .pathway-detail { font-size: 0.8em; opacity: 0.9; }
+        .pathway-desc { font-weight: 500; color: #2c3e50; font-size: 0.9em; }
+        
+        .flow-arrow { font-size: 1.8em; color: #667eea; margin: 0 10px; }
+        
+        .integration-panel { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 20px; padding: 40px; margin-top: 40px; }
+        .integration-title { font-size: 2em; font-weight: 600; margin-bottom: 20px; text-align: center; }
+        .integration-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin: 30px 0; }
+        .integration-card { background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px); }
+        .integration-header { font-size: 1.3em; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .integration-list { list-style: none; }
+        .integration-list li { margin: 10px 0; padding-left: 20px; position: relative; }
+        .integration-list li::before { content: '▶'; position: absolute; left: 0; color: #ffd700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🧬 BINN Conceptual Comparison</h1>
+            <p>Simple Protein BINN vs Enhanced SNP+Clinical BINN</p>
+        </div>
+        
+        <div class="comparison-container">
+            <!-- Simple BINN -->
+            <div class="binn-card">
+                <div class="card-header">
+                    <div class="card-title">Simple BINN</div>
+                    <div class="card-badge simple-badge">Traditional Protein-Based</div>
+                </div>
+                
+                <div class="data-sources">
+                    <div class="sources-title">Input Data</div>
+                    <div class="source-item">
+                        <div class="source-icon protein-icon"></div>
+                        <div class="source-text">Protein expression data</div>
+                    </div>
+                </div>
+                
+                <div class="architecture-diagram">
+                    <div class="layer-flow">
+                        <div class="layer">
+                            <div class="layer-icon simple-layer">🧪</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Input Layer</div>
+                                <div class="layer-desc">Protein expression levels</div>
+                                <div class="layer-data">(samples × proteins)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon simple-layer">🔗</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Pathway Layer</div>
+                                <div class="layer-desc">Reactome biological pathways</div>
+                                <div class="layer-data">(proteins → pathways)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon simple-layer">🏷️</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Hierarchy Layer</div>
+                                <div class="layer-desc">Pathway relationships</div>
+                                <div class="layer-data">(pathways → higher pathways)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon simple-layer">🎯</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Output Layer</div>
+                                <div class="layer-desc">Disease classification</div>
+                                <div class="layer-data">Predictions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced BINN -->
+            <div class="binn-card">
+                <div class="card-header">
+                    <div class="card-title">Enhanced BINN</div>
+                    <div class="card-badge enhanced-badge">SNP + Clinical Integration</div>
+                </div>
+                
+                <div class="data-sources">
+                    <div class="sources-title">Input Data</div>
+                    <div class="source-item">
+                        <div class="source-icon snp-icon"></div>
+                        <div class="source-text">SNP genotype data</div>
+                    </div>
+                    <div class="source-item">
+                        <div class="source-icon clinical-icon"></div>
+                        <div class="source-text">Clinical variables</div>
+                    </div>
+                </div>
+                
+                <div class="architecture-diagram">
+                    <div class="layer-flow">
+                        <div class="layer">
+                            <div class="layer-icon enhanced-layer">🧬</div>
+                            <div class="layer-content">
+                                <div class="layer-title">SNP Layer</div>
+                                <div class="layer-desc">Individual SNP identities</div>
+                                <div class="layer-data">(samples × SNPs + clinical)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon enhanced-layer">🧪</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Gene Layer</div>
+                                <div class="layer-desc">SNP→Gene + Clinical groups</div>
+                                <div class="layer-data">(SNPs → genes, clinical → groups)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon enhanced-layer">🔬</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Pathway Layer</div>
+                                <div class="layer-desc">Biological + Clinical pathways</div>
+                                <div class="layer-data">(genes + groups → pathways)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer">
+                            <div class="layer-icon enhanced-layer">🎯</div>
+                            <div class="layer-content">
+                                <div class="layer-title">Output Layer</div>
+                                <div class="layer-desc">Integrated risk prediction</div>
+                                <div class="layer-data">Genetic + Clinical predictions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-differences">
+            <div class="diff-title">🔍 Key Conceptual Differences</div>
+            <div class="diff-grid">
+                <div class="diff-card">
+                    <div class="diff-header">Data Granularity</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">Protein-level expression (aggregated)</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">SNP-level variants (individual) + clinical variables</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diff-card">
+                    <div class="diff-header">Biological Mapping</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">Direct protein→pathway mapping</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">SNP→Gene→Pathway + Clinical→Groups</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diff-card">
+                    <div class="diff-header">Information Content</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">Functional protein activity</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">Genetic predisposition + phenotypic risk factors</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diff-card">
+                    <div class="diff-header">Layer Independence</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">Standard BINN layers</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">Individual layers with identity matrices</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diff-card">
+                    <div class="diff-header">Clinical Integration</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">No clinical data</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">Age, BMI, conditions, lifestyle factors</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diff-card">
+                    <div class="diff-header">Interpretability</div>
+                    <div class="diff-comparison">
+                        <div class="diff-item simple-diff">
+                            <div class="diff-label simple-label">Simple BINN</div>
+                            <div class="diff-desc">Pathway-level insights</div>
+                        </div>
+                        <div class="diff-item enhanced-diff">
+                            <div class="diff-label enhanced-label">Enhanced BINN</div>
+                            <div class="diff-desc">SNP-level + clinical feature contributions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pathway-visualization">
+            <div class="pathway-title">📊 Data Flow Comparison</div>
+            
+            <div style="margin-bottom: 40px;">
+                <h3 style="text-align: center; color: #1976d2; margin-bottom: 20px;">Simple BINN Flow</h3>
+                <div class="pathway-flow">
+                    <div class="pathway-node">
+                        <div class="pathway-box simple-pathway">
+                            <div class="pathway-icon">🧪</div>
+                            <div class="pathway-label">Proteins</div>
+                        </div>
+                        <div class="pathway-desc">Expression levels</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box simple-pathway">
+                            <div class="pathway-icon">🔗</div>
+                            <div class="pathway-label">Pathways</div>
+                        </div>
+                        <div class="pathway-desc">Reactome mapping</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box simple-pathway">
+                            <div class="pathway-icon">🏷️</div>
+                            <div class="pathway-label">Hierarchy</div>
+                        </div>
+                        <div class="pathway-desc">Pathway relations</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box simple-pathway">
+                            <div class="pathway-icon">🎯</div>
+                            <div class="pathway-label">Output</div>
+                        </div>
+                        <div class="pathway-desc">Classification</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="text-align: center; color: #388e3c; margin-bottom: 20px;">Enhanced BINN Flow</h3>
+                <div class="pathway-flow">
+                    <div class="pathway-node">
+                        <div class="pathway-box enhanced-pathway">
+                            <div class="pathway-icon">🧬</div>
+                            <div class="pathway-label">SNPs</div>
+                            <div class="pathway-detail">+Clinical</div>
+                        </div>
+                        <div class="pathway-desc">Individual variants + phenotypes</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box enhanced-pathway">
+                            <div class="pathway-icon">🧪</div>
+                            <div class="pathway-label">Genes</div>
+                            <div class="pathway-detail">+Groups</div>
+                        </div>
+                        <div class="pathway-desc">Biological + clinical groupings</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box enhanced-pathway">
+                            <div class="pathway-icon">🔬</div>
+                            <div class="pathway-label">Pathways</div>
+                            <div class="pathway-detail">Integrated</div>
+                        </div>
+                        <div class="pathway-desc">Combined biological + clinical</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="pathway-node">
+                        <div class="pathway-box enhanced-pathway">
+                            <div class="pathway-icon">🎯</div>
+                            <div class="pathway-label">Output</div>
+                            <div class="pathway-detail">Risk</div>
+                        </div>
+                        <div class="pathway-desc">Comprehensive prediction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="integration-panel">
+            <div class="integration-title">🚀 Enhanced BINN Advantages</div>
+            
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-header">
+                        🧬 Genetic Precision
+                    </div>
+                    <ul class="integration-list">
+                        <li>Individual SNP-level analysis</li>
+                        <li>Captures rare variants</li>
+                        <li>Genetic predisposition mapping</li>
+                        <li>Population stratification aware</li>
+                    </ul>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-header">
+                        🏥 Clinical Integration
+                    </div>
+                    <ul class="integration-list">
+                        <li>Demographics (age, sex)</li>
+                        <li>Lifestyle factors (BMI, smoking)</li>
+                        <li>Comorbidities (diabetes, hypertension)</li>
+                        <li>Family history integration</li>
+                    </ul>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-header">
+                        🔍 Enhanced Interpretability
+                    </div>
+                    <ul class="integration-list">
+                        <li>SNP-level feature importance</li>
+                        <li>Clinical factor contributions</li>
+                        <li>Genetic vs environmental effects</li>
+                        <li>Pathway-specific insights</li>
+                    </ul>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-header">
+                        🎯 Comprehensive Modeling
+                    </div>
+                    <ul class="integration-list">
+                        <li>Multi-modal risk assessment</li>
+                        <li>Personalized predictions</li>
+                        <li>Biological constraint preservation</li>
+                        <li>Scalable to diverse populations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 15px; text-align: center;">
+                <h3>🎯 Core Innovation</h3>
+                <p><strong>Enhanced BINN</strong> extends traditional protein-pathway BINN by integrating SNP-level genetic variants with clinical phenotypes, enabling comprehensive risk modeling while preserving biological interpretability through individual layer architecture.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
